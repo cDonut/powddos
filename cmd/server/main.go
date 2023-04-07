@@ -60,9 +60,6 @@ func powMiddleware(next http.Handler) http.Handler {
 			defer atomic.AddInt64(&requests, -1)
 
 			level := requests / levelCap
-			if level > 20 {
-				level = 20
-			}
 
 			if level > 0 && !pow.CheckSolution(r.Header.Get("X-Solution"), level, data, tsExpire) {
 				w.Header().Set("X-Challenge", pow.NewChallenge(level, data).String())
